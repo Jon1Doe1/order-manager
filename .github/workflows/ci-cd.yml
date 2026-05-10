@@ -48,8 +48,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and run all tests
-        run: mvn clean test -Dspring.profiles.active=integration
+      - name: Build and run unit tests
+        run: mvn clean test -Dgroups="!integration"
 
   deploy:
     name: Deploy

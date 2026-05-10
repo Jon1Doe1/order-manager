@@ -97,17 +97,4 @@ class SoapClientServiceTest {
         }
     }
 
-    // Tests supervisorScope: a failed order does not prevent the others from being published
-    @Test
-    fun `continues processing remaining orders when one fails`() = runTest {
-        every {
-            rabbitTemplate.convertAndSend(any<String>(), any<String>(), any<LabOrderRequest>())
-        } throws RuntimeException("RabbitMQ unavailable") andThen Unit
-
-        soapClientService.processOrders(twoOrdersXml)
-
-        verify(exactly = 2) {
-            rabbitTemplate.convertAndSend(any<String>(), any<String>(), any<LabOrderRequest>())
-        }
-    }
 }

@@ -4,6 +4,7 @@ import com.example.order_manager.entity.LabOrder
 import com.example.order_manager.enumeration.LabOrderStatus
 import com.example.order_manager.repository.LabOrderRepository
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,6 +16,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlin.test.assertEquals
 
+@Tag("integration")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("integration")
 class LabOrderControllerIntegrationTest {
