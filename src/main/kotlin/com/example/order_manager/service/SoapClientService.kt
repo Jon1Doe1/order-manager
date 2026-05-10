@@ -70,7 +70,6 @@ class SoapClientService(
             logger.debug("Order {} published successfully", request.clientOrderId)
         } catch (e: Exception) {
             logger.error("Failed to publish order {}: {}", request.clientOrderId, e.message)
-            throw e
         }
     }
 
