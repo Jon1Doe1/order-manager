@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker version *)",
+      "Bash(ls ~/.m2/repository/com/github/docker-java/ 2>&1)",
+      "Read(//Users/davidesuriano/.m2/repository/com/github/docker-java/**)"
+    ]
+  }
+}

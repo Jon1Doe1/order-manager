@@ -1,0 +1,30 @@
+[
+  {
+    "clientId": "ALDI_DISTRIBUTION_CENTER_04",
+    "clientOrderId": "LOT-2026-XJF88",
+    "status": "NEW",
+    "samples": [
+      {
+        "sampleName": "Chicken Breast - Batch A22",
+        "analyses": [
+          { "name": "Salmonella Detection" },
+          { "name": "Total Bacterial Count" },
+          { "name": "Antibiotic Residue Check" }
+        ]
+      },
+      {
+        "sampleName": "Bagged Salad - Batch V55",
+        "analyses": [
+          { "name": "Listeria Detection" },
+          { "name": "Pesticide Screening" }
+        ]
+      },
+      {
+        "sampleName": "Organic Eggs - Batch E99",
+        "analyses": [
+          { "name": "Dioxin Analysis" }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<orders>
+
+  <order>
+    <clientId>ALDI_DISTRIBUTION_CENTER_04</clientId>
+    <clientOrderId>LOT-2026-XJF88</clientOrderId>
+    <samples>
+      <sample>
+        <sampleName>Chicken Breast - Batch A22</sampleName>
+        <analyses>
+          <analysis>Salmonella Detection</analysis>
+          <analysis>Total Bacterial Count</analysis>
+          <analysis>Antibiotic Residue Check</analysis>
+        </analyses>
+      </sample>
+      <sample>
+        <sampleName>Bagged Salad - Batch V55</sampleName>
+        <analyses>
+          <analysis>Listeria Detection</analysis>
+          <analysis>Pesticide Screening</analysis>
+        </analyses>
+      </sample>
+    </samples>
+  </order>
+
+  <order>
+    <clientId>LIDL_WAREHOUSE_BERLIN_02</clientId>
+    <clientOrderId>LOT-2026-KPZ14</clientOrderId>
+    <samples>
+      <sample>
+        <sampleName>Ground Beef - Batch B77</sampleName>
+        <analyses>
+          <analysis>E. Coli Detection</analysis>
+          <analysis>Total Bacterial Count</analysis>
+          <analysis>Heavy Metal Screening</analysis>
+        </analyses>
+      </sample>
+      <sample>
+        <sampleName>Pasteurized Milk - Batch M03</sampleName>
+        <analyses>
+          <analysis>Aflatoxin M1 Test</analysis>
+          <analysis>Antibiotic Residue Check</analysis>
+        </analyses>
+      </sample>
+    </samples>
+  </order>
+
+  <order>
+    <clientId>CARREFOUR_LOGISTICS_PARIS_07</clientId>
+    <clientOrderId>LOT-2026-TRQ29</clientOrderId>
+    <samples>
+      <sample>
+        <sampleName>Atlantic Salmon Fillet - Batch S11</sampleName>
+        <analyses>
+          <analysis>Mercury Content Analysis</analysis>
+          <analysis>Dioxin Analysis</analysis>
+          <analysis>Histamine Test</analysis>
+        </analyses>
+      </sample>
+      <sample>
+        <sampleName>Frozen Shrimp - Batch S44</sampleName>
+        <analyses>
+          <analysis>Antibiotic Residue Check</analysis>
+          <analysis>Salmonella Detection</analysis>
+        </analyses>
+      </sample>
+      <sample>
+        <sampleName>Smoked Mackerel - Batch S67</sampleName>
+        <analyses>
+          <analysis>Polycyclic Aromatic Hydrocarbons Test</analysis>
+          <analysis>Total Bacterial Count</analysis>
+        </analyses>
+      </sample>
+    </samples>
+  </order>
+
+  <order>
+    <clientId>REWE_SUPPLY_CHAIN_COLOGNE_01</clientId>
+    <clientOrderId>LOT-2026-VNM55</clientOrderId>
+    <samples>
+      <sample>
+        <sampleName>Organic Strawberries - Batch F18</sampleName>
+        <analyses>
+          <analysis>Pesticide Screening</analysis>
+          <analysis>Fungicide Residue Test</analysis>
+        </analyses>
+      </sample>
+      <sample>
+        <sampleName>Cherry Tomatoes - Batch F33</sampleName>
+        <analyses>
+          <analysis>Pesticide Screening</analysis>
+          <analysis>Nitrate Content Test</analysis>
+          <analysis>Listeria Detection</analysis>
+        </analyses>
+      </sample>
+    </samples>
+  </order>
+
+  <order>
+    <clientId>TESCO_DISTRIBUTION_UK_09</clientId>
+    <clientOrderId>LOT-2026-QWB71</clientOrderId>
+    <samples>
+      <sample>
+        <sampleName>Organic Eggs - Batch E99</sampleName>
+        <analyses>
+          <analysis>Dioxin Analysis</analysis>
+          <analysis>Salmonella Detection</analysis>
+        </analyses>
+      </sample>
+      <sample>
+        <sampleName>Cheddar Cheese - Batch C12</sampleName>
+        <analyses>
+          <analysis>Listeria Detection</analysis>
+          <analysis>Total Bacterial Count</analysis>
+          <analysis>Antibiotic Residue Check</analysis>
+        </analyses>
+      </sample>
+      <sample>
+        <sampleName>Whole Wheat Bread - Batch W04</sampleName>
+        <analyses>
+          <analysis>Mycotoxin Screening</analysis>
+          <analysis>Allergen Detection</analysis>
+        </analyses>
+      </sample>
+    </samples>
+  </order>
+
+</orders>

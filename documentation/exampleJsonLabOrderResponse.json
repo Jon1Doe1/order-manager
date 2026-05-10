@@ -1,0 +1,16 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "clientId": "ALDI_DISTRIBUTION_CENTER_04",
+    "status": "NEW",
+    "createdAt": "2026-05-06T21:30:00Z",
+    "updatedAt": "2026-05-06T21:30:00Z"
+  },
+  {
+    "id": "678e8400-e29b-41d4-a716-446655441111",
+    "clientId": "ALDI_DISTRIBUTION_CENTER_04",
+    "status": "COMPLETED",
+    "createdAt": "2026-05-05T10:00:00Z",
+    "updatedAt": "2026-05-05T16:45:00Z"
+  }
+]

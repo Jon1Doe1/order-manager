@@ -1,0 +1,38 @@
+{
+  "reportId": "REP-88990022",
+  "clientOrderId": "LOT-2026-XJF88",
+  "overallStatus": "PASSED",
+  "samplesResults": [
+    {
+      "sampleName": "Chicken Breast - Batch A22",
+      "result": "COMPLIANT",
+      "details": [
+        {
+          "analysisName": "Salmonella Detection",
+          "value": "Negative",
+          "limit": "Absence/25g",
+          "status": "PASS"
+        },
+        {
+          "analysisName": "Total Bacterial Count",
+          "value": "1.2 x 10^3 CFU/g",
+          "limit": "< 5.0 x 10^4 CFU/g",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "sampleName": "Bagged Salad - Batch V55",
+      "result": "NON_COMPLIANT",
+      "details": [
+        {
+          "analysisName": "Listeria Detection",
+          "value": "POSITIVE",
+          "limit": "Absence/25g",
+          "status": "FAIL"
+        }
+      ]
+    }
+  ],
+  "technicianNotes": "Listeria detected in sample V55. Batch rejection recommended."
+}
