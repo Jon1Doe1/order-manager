@@ -4,7 +4,58 @@ A Kotlin/Spring Boot backend that acts as a bridge between external clients (e.g
 
 ## Domain Model
 
-![domainModel.png](documentation/domainModel.png)
+```mermaid
+classDiagram
+    direction TB
+
+    class LabOrder {
+        +UUID id
+        +String clientId
+        +String clientOrderId
+        +LabOrderStatus status
+        +Boolean sent
+        +Instant createdAt
+        +Instant updatedAt
+    }
+
+    class Sample {
+        +UUID id
+        +String sampleName
+    }
+
+    class Analysis {
+        +UUID id
+        +String name
+    }
+
+    class AnalysisResult {
+        +UUID id
+        +String value
+        +String unit
+        +String referenceRange
+    }
+
+    class Report {
+        +UUID id
+        +String orderStatus
+        +String resultAnalyses
+        +Instant createdAt
+    }
+
+    class LabOrderStatus {
+        <<enumeration>>
+        NEW
+        VALIDATED
+        COMPLETE
+        FAILED
+    }
+
+    LabOrder "1" --> "0..*" Sample : contains
+    Sample "1" --> "0..*" Analysis : contains
+    Analysis "1" --> "0..1" AnalysisResult : has
+    LabOrder "1" --> "0..1" Report : generates
+    LabOrder --> LabOrderStatus
+```
 
 An **order** belongs to a client and contains one or more **samples**. Each sample has one or more **analyses** to be performed. Once the LIMS completes the analyses, it creates a **report** and transitions the order to `COMPLETED`.
 
@@ -49,7 +100,51 @@ External Clients ──▶ Order Manager ──(RabbitMQ)──▶ LIMS
 
 ## Database Schema
 
-![schema.png](documentation/schema.png)
+```mermaid
+erDiagram
+    orders {
+        uuid id PK
+        string client_id
+        string client_order_id UK
+        string status
+        boolean sent
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    samples {
+        uuid id PK
+        string sample_name
+        uuid order_id FK
+    }
+
+    analyses {
+        uuid id PK
+        string name
+        uuid sample_id FK
+    }
+
+    analysis_results {
+        uuid id PK
+        string value
+        string unit
+        string reference_range
+        uuid analysis_id FK
+    }
+
+    reports {
+        uuid id PK
+        uuid order_id FK
+        string order_status
+        jsonb result_analyses
+        timestamp created_at
+    }
+
+    orders ||--o{ samples : "has"
+    samples ||--o{ analyses : "has"
+    analyses ||--o| analysis_results : "has"
+    orders ||--o| reports : "generates"
+```
 
 ## Running Locally
 
