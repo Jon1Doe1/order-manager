@@ -1,0 +1,180 @@
+{
+  "info": {
+    "name": "Order Manager",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1/ordermanager"
+    },
+    {
+      "key": "clientOrderId",
+      "value": "LOT-2026-XJF88"
+    }
+  ],
+  "item": [
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "POST Create Orders",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/orders" },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"clientId\": \"ALDI_DISTRIBUTION_CENTER_04\",\n    \"clientOrderId\": \"LOT-2026-XJF88\",\n    \"status\": \"NEW\",\n    \"samples\": [\n      {\n        \"sampleName\": \"Chicken Breast - Batch A22\",\n        \"analyses\": [\n          { \"name\": \"Salmonella Detection\" },\n          { \"name\": \"Total Bacterial Count\" }\n        ]\n      }\n    ]\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "POST Create Orders - 400 empty clientId",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/orders" },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"clientId\": \"\",\n    \"clientOrderId\": \"LOT-2026-XJF88\",\n    \"status\": \"NEW\",\n    \"samples\": [\n      {\n        \"sampleName\": \"Chicken Breast - Batch A22\",\n        \"analyses\": [\n          { \"name\": \"Salmonella Detection\" }\n        ]\n      }\n    ]\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "POST Create Orders - 400 wrong status",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/orders" },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"clientId\": \"ALDI_DISTRIBUTION_CENTER_04\",\n    \"clientOrderId\": \"LOT-2026-XJF88\",\n    \"status\": \"VALIDATED\",\n    \"samples\": [\n      {\n        \"sampleName\": \"Chicken Breast - Batch A22\",\n        \"analyses\": [\n          { \"name\": \"Salmonella Detection\" }\n        ]\n      }\n    ]\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "POST Create Orders - 400 no samples",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/orders" },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"clientId\": \"ALDI_DISTRIBUTION_CENTER_04\",\n    \"clientOrderId\": \"LOT-2026-XJF88\",\n    \"status\": \"NEW\",\n    \"samples\": []\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "GET List All Orders",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/orders" }
+          }
+        },
+        {
+          "name": "GET Order by clientOrderId",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/orders/{{clientOrderId}}" }
+          }
+        },
+        {
+          "name": "GET Order by clientOrderId - 404",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/orders/NON-EXISTENT-ORDER" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "POST Create Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/reports" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientOrderId\": \"LOT-2026-XJF88\",\n  \"orderStatus\": \"COMPLETE\",\n  \"samplesResults\": [\n    {\n      \"sampleName\": \"Chicken Breast - Batch A22\",\n      \"result\": \"PASS\",\n      \"details\": [\n        {\n          \"analysisName\": \"Salmonella Detection\",\n          \"value\": \"Not detected\",\n          \"limit\": \"Not detected\",\n          \"status\": \"PASS\"\n        },\n        {\n          \"analysisName\": \"Total Bacterial Count\",\n          \"value\": \"1200 CFU/g\",\n          \"limit\": \"< 100000 CFU/g\",\n          \"status\": \"PASS\"\n        }\n      ]\n    }\n  ],\n  \"technicianNotes\": \"All analyses within acceptable limits.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Create Report - FAILED order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/reports" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientOrderId\": \"LOT-2026-XJF88\",\n  \"orderStatus\": \"FAILED\",\n  \"samplesResults\": [\n    {\n      \"sampleName\": \"Chicken Breast - Batch A22\",\n      \"result\": \"FAIL\",\n      \"details\": [\n        {\n          \"analysisName\": \"Salmonella Detection\",\n          \"value\": \"Detected\",\n          \"limit\": \"Not detected\",\n          \"status\": \"FAIL\"\n        }\n      ]\n    }\n  ],\n  \"technicianNotes\": \"Salmonella detected. Batch rejected.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Report by clientOrderId",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/reports/{{clientOrderId}}" }
+          }
+        },
+        {
+          "name": "GET Report by clientOrderId - 404",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/reports/NON-EXISTENT-ORDER" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "SOAP Client",
+      "item": [
+        {
+          "name": "POST SOAP - single order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/plain" }
+            ],
+            "url": { "raw": "{{baseUrl}}/orders/soap-client" },
+            "body": {
+              "mode": "raw",
+              "raw": "<orders>\n  <order>\n    <clientId>LIDL_WAREHOUSE_BERLIN_02</clientId>\n    <clientOrderId>LOT-2026-KPZ14</clientOrderId>\n    <samples>\n      <sample>\n        <sampleName>Ground Beef - Batch B77</sampleName>\n        <analyses>\n          <analysis>E. Coli Detection</analysis>\n          <analysis>Total Bacterial Count</analysis>\n        </analyses>\n      </sample>\n    </samples>\n  </order>\n</orders>"
+            }
+          }
+        },
+        {
+          "name": "POST SOAP - multiple orders",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/plain" }
+            ],
+            "url": { "raw": "{{baseUrl}}/orders/soap-client" },
+            "body": {
+              "mode": "raw",
+              "raw": "<orders>\n  <order>\n    <clientId>ALDI_DISTRIBUTION_CENTER_04</clientId>\n    <clientOrderId>LOT-2026-AAA01</clientOrderId>\n    <samples>\n      <sample>\n        <sampleName>Pork Ribs - Batch C11</sampleName>\n        <analyses>\n          <analysis>Salmonella Detection</analysis>\n        </analyses>\n      </sample>\n    </samples>\n  </order>\n  <order>\n    <clientId>LIDL_WAREHOUSE_BERLIN_02</clientId>\n    <clientOrderId>LOT-2026-BBB02</clientOrderId>\n    <samples>\n      <sample>\n        <sampleName>Ground Beef - Batch D44</sampleName>\n        <analyses>\n          <analysis>E. Coli Detection</analysis>\n        </analyses>\n      </sample>\n    </samples>\n  </order>\n</orders>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
