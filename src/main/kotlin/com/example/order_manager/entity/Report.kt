@@ -1,8 +1,7 @@
 package com.example.order_manager.entity
 
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcTypeCode
-import org.hibernate.type.SqlTypes
+import org.hibernate.annotations.ColumnTransformer
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -22,7 +21,7 @@ class Report(
     @Column(name = "order_status", nullable = false)
     var orderStatus: String,
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @ColumnTransformer(write = "?::jsonb")
     @Column(name = "result_analyses", columnDefinition = "jsonb", nullable = false)
     var resultAnalyses: String
 ) {

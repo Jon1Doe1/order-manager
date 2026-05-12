@@ -14,6 +14,6 @@ interface LabOrderRepository : JpaRepository<LabOrder, UUID> {
 
     fun findByStatusAndSent(status: LabOrderStatus, sent: Boolean): List<LabOrder>
 
-    @Query("SELECT o FROM LabOrder o LEFT JOIN FETCH o.samples s LEFT JOIN FETCH s.analyses WHERE o.id = :id")
+    @Query("SELECT DISTINCT o FROM LabOrder o LEFT JOIN FETCH o.samples WHERE o.id = :id")
     fun findByIdWithDetails(id: UUID): LabOrder?
 }

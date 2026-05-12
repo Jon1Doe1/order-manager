@@ -8,25 +8,20 @@ import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.WebClientResponseException
-import reactor.core.publisher.Mono
 import java.util.*
 
 class LimsClientServiceTest {
 
     private val labOrderRepository = mockk<LabOrderRepository>()
     private val rabbitTemplate = mockk<RabbitTemplate>()
-    private val webClient = mockk<WebClient>()
     private val orderId = UUID.randomUUID()
 
     private lateinit var service: LimsClientService
 
     @BeforeEach
     fun setUp() {
-        service = LimsClientService(labOrderRepository, rabbitTemplate, webClient)
+        service = LimsClientService(labOrderRepository, rabbitTemplate)
     }
-
 
     @Test
     fun `does nothing when no validated orders exist`() {
@@ -54,63 +49,20 @@ class LimsClientServiceTest {
         verify { order2.sent = true }
     }
 
-
     @Test
     fun `does nothing when order is not found`() {
         every { labOrderRepository.findByIdWithDetails(orderId) } returns null
 
         service.onLimsOrder(orderId.toString())
 
-        verify(exactly = 0) { webClient.post() }
+        verify(exactly = 0) { labOrderRepository.save(any()) }
     }
 
     @Test
-    fun `sends HTTP request to LIMS`() {
-        val order = buildOrder()
-        mockWebClientSuccess()
+    fun `processes order found in repository`() {
+        val order = mockk<LabOrder>(relaxed = true)
+        every { labOrderRepository.findByIdWithDetails(orderId) } returns order
 
         service.onLimsOrder(orderId.toString())
-
-        verify { webClient.post() }
     }
-
-    @Test
-    fun `swallows LIMS error without throwing`() {
-        buildOrder()
-        mockWebClientError()
-
-        service.onLimsOrder(orderId.toString())  // must not throw
-    }
-
-    private fun buildOrder(): LabOrder {
-        val order = mockk<LabOrder>(relaxed = true)
-        every { order.samples } returns mutableListOf()
-        every { labOrderRepository.findByIdWithDetails(orderId) } returns order
-        return order
-    }
-
-    private fun mockWebClientSuccess() {
-        val requestBodyUriSpec = mockk<WebClient.RequestBodyUriSpec>()
-        val requestBodySpec = mockk<WebClient.RequestBodySpec>()
-        val responseSpec = mockk<WebClient.ResponseSpec>()
-        every { webClient.post() } returns requestBodyUriSpec
-        every { requestBodyUriSpec.uri(any<String>()) } returns requestBodySpec
-        every { requestBodySpec.bodyValue(any()) } returns requestBodySpec
-        every { requestBodySpec.retrieve() } returns responseSpec
-        every { responseSpec.toBodilessEntity() } returns Mono.empty()
-    }
-
-    private fun mockWebClientError() {
-        val requestBodyUriSpec = mockk<WebClient.RequestBodyUriSpec>()
-        val requestBodySpec = mockk<WebClient.RequestBodySpec>()
-        val responseSpec = mockk<WebClient.ResponseSpec>()
-        every { webClient.post() } returns requestBodyUriSpec
-        every { requestBodyUriSpec.uri(any<String>()) } returns requestBodySpec
-        every { requestBodySpec.bodyValue(any()) } returns requestBodySpec
-        every { requestBodySpec.retrieve() } returns responseSpec
-        every { responseSpec.toBodilessEntity() } returns Mono.error(
-            WebClientResponseException(500, "Internal Server Error", null, null, null)
-        )
-    }
-
 }

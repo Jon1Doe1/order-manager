@@ -57,9 +57,9 @@ classDiagram
     LabOrder --> LabOrderStatus
 ```
 
-An **order** belongs to a client and contains one or more **samples**. Each sample has one or more **analyses** to be performed. Once the LIMS completes the analyses, it creates a **report** and transitions the order to `COMPLETED`.
+An **order** belongs to a client and contains one or more **samples**. Each sample has one or more **analyses** to be performed. Once the LIMS completes the analyses, it creates a **report** and transitions the order to `COMPLETE` or `FAILED`.
 
-Order statuses: `NEW` → `VALIDATED` → `IN_PROGRESS` → `COMPLETED`
+Order statuses: `NEW` → `VALIDATED` → `COMPLETE` / `FAILED`
 
 ## Architecture
 
@@ -91,6 +91,7 @@ External Clients ──▶ Order Manager ──(RabbitMQ)──▶ LIMS
 
 | Technology | Version |
 |------------|---------|
+| Java | 17 |
 | Kotlin | 2.2.21 |
 | Spring Boot | 4.0.6 |
 | PostgreSQL | 16 |
@@ -151,7 +152,7 @@ erDiagram
 Start the required infrastructure:
 
 ```bash
-docker compose -f docker-compose-test.yml up -d
+docker compose up -d
 ```
 
 Then run the application:
@@ -162,13 +163,19 @@ Then run the application:
 
 ## Running Tests
 
-Integration tests require the Docker Compose containers to be running (see above).
+Unit tests run without any infrastructure:
 
 ```bash
 ./mvnw test
 ```
 
-Unit tests use [MockK](https://mockk.io/) and [kotlinx-coroutines-test](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/) and run without any infrastructure.
+Integration tests (tagged `@Tag("integration")`) require the Docker Compose containers to be running and must be invoked explicitly:
+
+```bash
+./mvnw test -Dgroups=integration
+```
+
+Unit tests use [MockK](https://mockk.io/) and [kotlinx-coroutines-test](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/).
 
 ## Example Payloads
 
